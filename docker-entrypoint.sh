@@ -7,7 +7,6 @@ if [[ "$1" == "digibyte-cli" || "$1" == "digibyte-tx" || "$1" == "digibyted" || 
 	if [[ ! -s "$DIGIBYTE_DATA/digibyte.conf" ]]; then
 		cat <<-EOF > "$DIGIBYTE_DATA/digibyte.conf"
 		printtoconsole=1
-                regtest=1
 		rpcallowip=::/0
 		rpcpassword=${DIGIBYTE_RPC_PASSWORD:-password}
 		rpcuser=${DIGIBYTE_RPC_USER:-digibyte}
