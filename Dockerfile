@@ -20,7 +20,7 @@ RUN set -ex \
 	&& rm -rf /tmp/*
 
 # create data directory
-#ENV DIGIBYTE_DATA /data
+ENV DIGIBYTE_DATA /data
 #RUN mkdir "$DIGIBYTE_DATA" \
 #	&& chown -R digibyte:digibyte "$DIGIBYTE_DATA" \
 #	&& ln -sfn "$DIGIBYTE_DATA" /home/digibyte/.digibyte \
