@@ -2,6 +2,8 @@ version: "3"
 services:
   digibyted:
     image: blckchnd/digibyte
+    build:
+      context: .
     # specify additional command line arguments here
     command: digibyted -datadir=/data
     healthcheck:
