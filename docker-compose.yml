@@ -1,29 +1,32 @@
 version: "3"
+
 services:
-  digibyted:
-    image: blckchnd/digibyte
+  bitcoind:
+    image: blckchnd/bitcoin
+    build:
+      context: .
     # specify additional command line arguments here
-    command: digibyted -datadir=/data
+    command: bitcoind -datadir=/data
     healthcheck:
-      test: ["CMD", "/entrypoint.sh", "digibyte-cli", "getinfo"]
+      test: ["CMD", "/entrypoint.sh", "bitcoin-cli", "getinfo"]
     ports:
       # change to 18333 if running testnet
       - 8333:8333
       - 8332:8332
     volumes:
-      - ./digibyte-data:/data
+      - ./bitcoin-data:/data
     networks:
-      - digibyte
-  digibyte-cli:
-    image: blckchnd/digibyte
-    entrypoint: ["/entrypoint.sh", "digibyte-cli"]
+      - bitcoin
+  bitcoin-cli:
+    image: blckchnd/bitcoin
+    entrypoint: ["/entrypoint.sh", "bitcoin-cli"]
     command: ""
     depends_on:
-      - digibyted
-    network_mode: service:digibyted
+      - bitcoind
+    network_mode: service:bitcoind
 
 networks:
-  digibyte:
+  bitcoin:
 
 volumes:
-  digibyte-data:
+  bitcoin-data:

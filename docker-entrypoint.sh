@@ -1,28 +1,29 @@
 #!/bin/bash
 set -e
 
-if [[ "$1" == "digibyte-cli" || "$1" == "digibyte-tx" || "$1" == "digibyted" || "$1" == "test_digibyte" ]]; then
-	mkdir -p "$DIGIBYTE_DATA"
+if [[ "$1" == "bitcoin-cli" || "$1" == "bitcoin-tx" || "$1" == "bitcoind" || "$1" == "test_bitcoin" ]]; then
+	mkdir -p "$BITCOIN_DATA"
 
-	if [[ ! -s "$DIGIBYTE_DATA/digibyte.conf" ]]; then
-		cat <<-EOF > "$DIGIBYTE_DATA/digibyte.conf"
+	if [[ ! -s "$BITCOIN_DATA/bitcoin.conf" ]]; then
+		cat <<-EOF > "$BITCOIN_DATA/bitcoin.conf"
 		printtoconsole=1
-                regtest=1
+		prune=5120
 		rpcallowip=::/0
-		rpcpassword=${DIGIBYTE_RPC_PASSWORD:-password}
-		rpcuser=${DIGIBYTE_RPC_USER:-digibyte}
+		rpcpassword=${BITCOIN_RPC_PASSWORD:-password}
+		rpcuser=${BITCOIN_RPC_USER:-bitcoin}
 		EOF
-		chown digibyte:digibyte "$DIGIBYTE_DATA/digibyte.conf"
+		chown bitcoin:bitcoin "$BITCOIN_DATA/bitcoin.conf"
 	fi
 
 	# ensure correct ownership and linking of data directory
 	# we do not update group ownership here, in case users want to mount
 	# a host directory and still retain access to it
-	chown -R digibyte "$DIGIBYTE_DATA"
-	ln -sfn "$DIGIBYTE_DATA" /home/digibyte/.digibyte
-	chown -h digibyte:digibyte /home/digibyte/.digibyte
+	chown -R bitcoin "$BITCOIN_DATA"
+	ln -sfn "$BITCOIN_DATA" /home/bitcoin/.bitcoin
+	chown -h bitcoin:bitcoin /home/bitcoin/.bitcoin
 
-	exec gosu digibyte "$@"
+	exec gosu bitcoin "$@"
 fi
 
 exec "$@"
+
